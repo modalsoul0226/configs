@@ -36,36 +36,77 @@ return require('packer').startup({
             }
         }
 
-        -- Snippets and Auto-completions
-        use "williamboman/mason.nvim"
+        -- LSP
+        use {
+    	    "williamboman/mason.nvim",
+    	    config = function()
+                require("mason").setup({
+                    ui = {
+                        icons = {
+                            package_installed = "✓",
+                            package_pending = "➜",
+                            package_uninstalled = "✗"
+                        }
+                    }
+                })
+    	    end
+    	}
 
-        require("mason").setup({
-            ui = {
-                icons = {
-                    package_installed = "✓",
-                    package_pending = "➜",
-                    package_uninstalled = "✗"
-                }
-            }
-        })
+        use {
+    	    "williamboman/mason-lspconfig.nvim",
+    	    config = function()
+    		    require'mason-lspconfig'.setup{}
+    	    end
+    	}
 
         use {
             'neovim/nvim-lspconfig',
             config = function()
-                require'lspconfig'.pyright.setup{}
-            end
+                require('xinze.lsp.servers')
+            end,
+            requires = {
+                {
+                    -- WARN: Unfortunately we won't be able to lazy load this
+                    'hrsh7th/cmp-nvim-lsp',
+                },
+            },
         }
 
         -- Auto-completion
-        use 'hrsh7th/nvim-cmp'
-        use 'hrsh7th/cmp-buffer'
-        use 'hrsh7th/cmp-path'
-        use 'hrsh7th/cmp-cmdline'
-        -- use 'hrsh7th/cmp-nvim-lsp'
-
+        use {
+            {
+                'hrsh7th/nvim-cmp',
+                config = function()
+                    require('xinze.lsp.cmp')
+                end,
+                requires = {
+                    {
+                        'L3MON4D3/LuaSnip',
+                        event = 'InsertEnter',
+                        config = function()
+                            require('xinze.lsp.luasnip')
+                        end,
+                        requires = {
+                            {
+                                'rafamadriz/friendly-snippets',
+                                event = 'CursorHold',
+                            },
+                        },
+                    },
+                },
+            },
+            { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
+            { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
+            { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
+        }
 
 	    -- Format & Syntax
 	    use "lukas-reineke/indent-blankline.nvim"
+        require("indent_blankline").setup {
+            -- for example, context is off by default, use this to turn it on
+            show_current_context = true,
+            show_current_context_start = true,
+        }
 
     end,
     config = {

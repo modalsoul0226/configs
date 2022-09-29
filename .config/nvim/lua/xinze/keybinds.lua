@@ -2,6 +2,11 @@ local function map(m, k, v)
     vim.keymap.set(m, k, v, { silent = true })
 end
 
+-- Diagnostics
+local diag = vim.diagnostic
+map('n', '[d', diag.goto_prev)
+map('n', ']d', diag.goto_next)
+
 -- Fix * (Keep the cursor position, don't move to next match)
 map('n', '*', '*N')
 
