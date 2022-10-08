@@ -108,6 +108,25 @@ return require('packer').startup({
             show_current_context_start = true,
         }
 
+        -- markdown
+        use { 'iamcco/markdown-preview.nvim' }
+
+        -- treesitter: better highlights
+        use({
+            {
+                'nvim-treesitter/nvim-treesitter',
+                event = 'CursorHold',
+                run = ':TSUpdate',
+                config = function()
+                    require('xinze.stx.tree-sitter')
+                end,
+            },
+            { 'nvim-treesitter/playground', after = 'nvim-treesitter' },
+            { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' },
+            { 'nvim-treesitter/nvim-treesitter-refactor', after = 'nvim-treesitter' },
+            { 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' },
+            { 'JoosepAlviste/nvim-ts-context-commentstring', after = 'nvim-treesitter' },
+        })
     end,
     config = {
         display = {
