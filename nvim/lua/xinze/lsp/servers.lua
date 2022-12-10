@@ -19,7 +19,8 @@ local ds = {
     'tsserver',
     'jsonls',
     'tailwindcss',
-    'bashls'
+    'bashls',
+    'marksman', -- markdown
 }
 
 for _, server in ipairs(ds) do

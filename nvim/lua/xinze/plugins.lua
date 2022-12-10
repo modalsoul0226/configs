@@ -31,7 +31,10 @@ return require('packer').startup({
             requires = {
                 'kyazdani42/nvim-web-devicons', -- optional, for file icons
             },
-            tag = 'nightly' -- optional, updated every week. (see issue #1193)
+            tag = 'nightly', -- optional, updated every week. (see issue #1193)
+            config = function ()
+                require("xinze.ui.nvim-tree")
+            end
         }
 
         use {
@@ -67,6 +70,17 @@ return require('packer').startup({
                 require('xinze.ui.dashboard')
             end
         }
+
+        use {
+            "iamcco/markdown-preview.nvim",
+            run = "cd app && npm install",
+            setup = function()
+                vim.g.mkdp_filetypes = { "markdown" }
+            end,
+            ft = { "markdown" },
+        }
+
+        use 'voldikss/vim-floaterm'
 
         -- Hightlights
         use{
@@ -163,6 +177,19 @@ return require('packer').startup({
             -- for example, context is off by default, use this to turn it on
             show_current_context = true,
             show_current_context_start = true,
+        }
+
+        use {
+            'numToStr/Comment.nvim', -- block commenting
+            config = function()
+                require("xinze.syntax.comment")
+            end,
+            requires = { "nvim-treesitter/nvim-treesitter" }
+        }
+
+        use {
+            'kkoomen/vim-doge', -- DO(cstring) GE(neration)
+            run = ':call doge#install()'
         }
 
     end,

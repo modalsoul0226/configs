@@ -80,6 +80,13 @@ o.splitbelow = true
 -- o.foldnestmax = 3
 -- o.foldminlines = 1
 
+-- Folds with tree sitter
+o.foldmethod = 'expr'
+o.foldexpr = 'nvim_treesitter#foldexpr()'
+-- o.foldmethod = 'indent'
+o.foldnestmax = 2
+o.foldlevelstart = 1
+
 -- Map <leader> to space
 g.mapleader = ' '
 g.maplocalleader = ' '
